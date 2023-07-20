@@ -21,18 +21,19 @@ const Layout = () => (
 
 const router = createBrowserRouter([
   {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/register',
+    element: <Register />,
+  },
+  {
     path: '/',
     element: <Layout />,
+
     children: [
       { path: '/', element: <Home /> },
-      {
-        path: '/login',
-        element: <Login />,
-      },
-      {
-        path: '/register',
-        element: <Register />,
-      },
       { path: '/pricing', element: <Pricing /> },
       { path: '/contact', element: <Contact /> },
       { path: '/aboutus', element: <AboutUs /> },
