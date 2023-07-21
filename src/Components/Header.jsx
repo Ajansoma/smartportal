@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
-    <div className="h-screen px-6 sm:px-16 lg:grid lg:grid-cols-2 justify-between items-center">
+    <div className="lg:h-screen lg:grid lg:grid-cols-2 justify-between items-center">
       <div className="">
         <h1 className="text-[52px] leading-[72px] text-sec-300 font-semibold sm:text-[72px] sm:leading-[100px]">
           Your Ultimate Business <br className="hidden sm:block" />
           <span className="text-gradient">Finance Solution</span>
         </h1>
         <p
-          className={`font-normal text-[18px] leading-[30.8px] max-w-[470px] my-5`}
+          className={`font-normal text-[18px] leading-[30.8px] max-w-[470px] mt-5 mb-7`}
         >
           Monitor, analyze, and optimize your company's finances with ease. From
           expense tracking to budget planning, take charge of your business's

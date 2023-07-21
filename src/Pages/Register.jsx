@@ -1,12 +1,27 @@
+import { useState } from 'react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import AuthRedirectMessage from '../Components/Auth/AuthRedirectMessage';
 import AuthWelcomeMessage from '../Components/Auth/AuthWelcomeMessage';
 import AuthImage from '../Components/Auth/AuthImage';
 import { registerData } from '../data';
 import Form from '../UI/Form';
+import { registerSchema } from '../Components/Schema';
+import { auth } from '../firebase';
 
 const Register = () => {
+  const [error, setError] = useState(false);
+
   const onSubmit = function (data) {
-    console.log(data);
+    const { email, password } = data;
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -18,6 +33,8 @@ const Register = () => {
           onSubmit={onSubmit}
           isLoginForm={false}
           buttonName="Sign up"
+          schema={registerSchema}
+          invalidDetails={error}
         />
         <AuthRedirectMessage isLogin={false} />
       </div>
