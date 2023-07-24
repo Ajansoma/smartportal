@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import AuthRedirectMessage from '../Components/Auth/AuthRedirectMessage';
 import AuthWelcomeMessage from '../Components/Auth/AuthWelcomeMessage';
@@ -7,22 +7,47 @@ import { registerData } from '../data';
 import Form from '../UI/Form';
 import { registerSchema } from '../Components/Schema';
 import { auth } from '../firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const Register = () => {
   const [error, setError] = useState(false);
+  const [user, setUser] = useState(null);
 
-  const onSubmit = function (data) {
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const onSubmit = async function (data) {
     const { email, password } = data;
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
+        userCredential.user;
       })
       .catch((error) => {
         setError(error.message);
       });
+
+    await setDoc(doc(db, 'user', user.uid), {
+      ...data,
+      admin: true,
+    });
   };
+
+  console.log(user);
+
+  // const handleSignOut = () => {
+  //   firebase.auth().signOut();
+  // };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2">
       <AuthImage />
